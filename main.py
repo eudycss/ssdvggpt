@@ -59,7 +59,7 @@ CLASSES = [
 
 NUM_CLASSES = len(CLASSES)
 model = create_model(num_classes=NUM_CLASSES, size=640)
-checkpoint = torch.load('/models/best_model.pth', map_location=DEVICE) # ruta de los pesos
+checkpoint = torch.load("/home/ubuntu/cvapp/ssdvggpt/models/best_model.pth", map_location=DEVICE) # ruta de los pesos
 model.load_state_dict(checkpoint['model_state_dict'])
 model.to(DEVICE).eval()
 
@@ -76,10 +76,10 @@ detection_model = AutoDetectionModel.from_pretrained(
 
 #predecir en imagenes
 result = get_sliced_prediction(
-    "/DJI_0922_JPG.rf.03fb1a894520dc166d6ee453922af9eb.jpg",
+    "/home/ubuntu/cvapp/ssdvggpt/models/img/DJI_0664_JPG.rf.bfc2d4555edbf39d0d402cdccec0cb51.jpg",
     detection_model,
-    slice_height = 56, #variar alto de la ventana
-    slice_width = 56, #variar ancho de la ventana
+    slice_height = 128, #variar alto de la ventana
+    slice_width = 128, #variar ancho de la ventana
     overlap_height_ratio = 0.2,
     overlap_width_ratio = 0.2,
 )
@@ -87,14 +87,16 @@ result = get_sliced_prediction(
 #Guardar y mostrar resultado
 result.export_visuals(export_dir="demo_data/")
 
-Image("demo_data/prediction_visual.png")
+Image("/home/ubuntu/cvapp/ssdvggpt/demo_data/prediction_visual.png")
 
 #Mostrar con openCV
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
 
-img = imread('/content/demo_data/prediction_visual.png')
+img = imread('/home/ubuntu/cvapp/ssdvggpt/demo_data/prediction_visual.png')
 #import numpy as np
 #img = np.read_image()
 plt.imshow(img)
 plt.show()
+
+print('Ejecutado con exito')
